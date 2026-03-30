@@ -2,18 +2,18 @@ package br.com.ucsal.olimpiadas.service;
 
 import br.com.ucsal.olimpiadas.Prova;
 import br.com.ucsal.olimpiadas.Questao;
-import br.com.ucsal.olimpiadas.repositorio.ProvaRepositorio;
+import br.com.ucsal.olimpiadas.repositorio.iProvaRepositorio;
 import br.com.ucsal.olimpiadas.repositorio.QuestaoRepositorio;
 import java.util.Scanner;
 
 public class ServiceProva {
 
-    private final ProvaRepositorio provaRepositorio;
+    private final iProvaRepositorio iProvaRepositorio;
     private final QuestaoRepositorio questaoRepositorio;
     private final Scanner in;
 
-    public ServiceProva(ProvaRepositorio provaRepositorio, QuestaoRepositorio questaoRepositorio, Scanner in) {
-        this.provaRepositorio = provaRepositorio;
+    public ServiceProva(iProvaRepositorio iProvaRepositorio, QuestaoRepositorio questaoRepositorio, Scanner in) {
+        this.iProvaRepositorio = iProvaRepositorio;
         this.questaoRepositorio = questaoRepositorio;
         this.in = in;
     }
@@ -28,15 +28,15 @@ public class ServiceProva {
         }
 
         var prova = new Prova();
-        prova.setId(provaRepositorio.proximoId());
+        prova.setId(iProvaRepositorio.proximoId());
         prova.setTitulo(titulo);
 
-        provaRepositorio.salvar(prova);
+        iProvaRepositorio.salvar(prova);
         System.out.println("Prova criada: " + prova.getId());
     }
 
     public void cadastrarQuestao() {
-        if (provaRepositorio.isEmpty()) {
+        if (iProvaRepositorio.isEmpty()) {
             System.out.println("não há provas cadastradas");
             return;
         }
@@ -77,14 +77,14 @@ public class ServiceProva {
 
     public Long escolher() {
         System.out.println("\nProvas:");
-        for (var p : provaRepositorio.listarTodos()) {
+        for (var p : iProvaRepositorio.listarTodos()) {
             System.out.printf("  %d) %s%n", p.getId(), p.getTitulo());
         }
         System.out.print("Escolha o id da prova: ");
 
         try {
             long id = Long.parseLong(in.nextLine());
-            if (provaRepositorio.buscarPorId(id).isEmpty()) {
+            if (iProvaRepositorio.buscarPorId(id).isEmpty()) {
                 System.out.println("id inválido");
                 return null;
             }

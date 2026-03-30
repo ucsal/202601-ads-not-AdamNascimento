@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProvaRepositorio {
+public class ProvaRepositorio implements iProvaRepositorio {
 
     private final List<Prova> provas = new ArrayList<>();
     private long proximoId = 1;

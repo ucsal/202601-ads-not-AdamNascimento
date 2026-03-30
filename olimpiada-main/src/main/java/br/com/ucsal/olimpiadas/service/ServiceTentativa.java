@@ -3,46 +3,46 @@ package br.com.ucsal.olimpiadas.service;
 import br.com.ucsal.olimpiadas.Questao;
 import br.com.ucsal.olimpiadas.Resposta;
 import br.com.ucsal.olimpiadas.Tentativa;
-import br.com.ucsal.olimpiadas.repositorio.ParticipanteRepositorio;
-import br.com.ucsal.olimpiadas.repositorio.ProvaRepositorio;
-import br.com.ucsal.olimpiadas.repositorio.QuestaoRepositorio;
-import br.com.ucsal.olimpiadas.repositorio.TentativaRepositorio;
+import br.com.ucsal.olimpiadas.repositorio.iParticipanteRepositorio;
+import br.com.ucsal.olimpiadas.repositorio.iProvaRepositorio;
+import br.com.ucsal.olimpiadas.repositorio.iQuestaoRepositorio;
+import br.com.ucsal.olimpiadas.repositorio.iTentativaRepositorio;
 import br.com.ucsal.olimpiadas.util.TabuleiroUtil;
 import java.util.Scanner;
 
 public class ServiceTentativa {
 
-    private final ParticipanteRepositorio participanteRepositorio;
-    private final ProvaRepositorio provaRepositorio;
-    private final QuestaoRepositorio questaoRepositorio;
-    private final TentativaRepositorio tentativaRepositorio;
+    private final iParticipanteRepositorio iParticipanteRepositorio;
+    private final iProvaRepositorio iProvaRepositorio;
+    private final iQuestaoRepositorio iQuestaoRepositorio;
+    private final iTentativaRepositorio iTentativaRepositorio;
     private final ServiceParticipante serviceParticipante;
     private final ServiceProva serviceProva;
     private final Scanner in;
 
     public ServiceTentativa(
-            ParticipanteRepositorio participanteRepositorio,
-            ProvaRepositorio provaRepositorio,
-            QuestaoRepositorio questaoRepositorio,
-            TentativaRepositorio tentativaRepositorio,
+            iParticipanteRepositorio iParticipanteRepositorio,
+            iProvaRepositorio iProvaRepositorio,
+            iQuestaoRepositorio iQuestaoRepositorio,
+            iTentativaRepositorio iTentativaRepositorio,
             ServiceParticipante serviceParticipante,
             ServiceProva serviceProva,
             Scanner in) {
-        this.participanteRepositorio = participanteRepositorio;
-        this.provaRepositorio = provaRepositorio;
-        this.questaoRepositorio = questaoRepositorio;
-        this.tentativaRepositorio = tentativaRepositorio;
+        this.iParticipanteRepositorio = iParticipanteRepositorio;
+        this.iProvaRepositorio = iProvaRepositorio;
+        this.iQuestaoRepositorio = iQuestaoRepositorio;
+        this.iTentativaRepositorio = iTentativaRepositorio;
         this.serviceParticipante = serviceParticipante;
         this.serviceProva = serviceProva;
         this.in = in;
     }
 
     public void aplicarProva() {
-        if (participanteRepositorio.isEmpty()) {
+        if (iParticipanteRepositorio.isEmpty()) {
             System.out.println("cadastre participantes primeiro");
             return;
         }
-        if (provaRepositorio.isEmpty()) {
+        if (iProvaRepositorio.isEmpty()) {
             System.out.println("cadastre provas primeiro");
             return;
         }
@@ -55,7 +55,7 @@ public class ServiceTentativa {
         if (provaId == null)
             return;
 
-        var questoesDaProva = questaoRepositorio.listarTodos()
+        var questoesDaProva = iQuestaoRepositorio.listarTodos()
                 .stream()
                 .filter(q -> q.getProvaId() == provaId)
                 .toList();
@@ -66,7 +66,7 @@ public class ServiceTentativa {
         }
 
         var tentativa = new Tentativa();
-        tentativa.setId(tentativaRepositorio.proximoId());
+        tentativa.setId(iTentativaRepositorio.proximoId());
         tentativa.setParticipanteId(participanteId);
         tentativa.setProvaId(provaId);
 
@@ -100,7 +100,7 @@ public class ServiceTentativa {
             tentativa.getRespostas().add(r);
         }
 
-        tentativaRepositorio.salvar(tentativa);
+        iTentativaRepositorio.salvar(tentativa);
 
         int nota = calcularNota(tentativa);
         System.out.println("\n--- Fim da Prova ---");
@@ -118,7 +118,7 @@ public class ServiceTentativa {
 
     public void listar() {
         System.out.println("\n--- Tentativas ---");
-        for (var t : tentativaRepositorio.listarTodos()) {
+        for (var t : iTentativaRepositorio.listarTodos()) {
             System.out.printf("#%d | participante=%d | prova=%d | nota=%d/%d%n",
                     t.getId(), t.getParticipanteId(),
                     t.getProvaId(), calcularNota(t), t.getRespostas().size());

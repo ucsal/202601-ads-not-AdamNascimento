@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TentativaRepositorio {
+public class TentativaRepositorio implements iTentativaRepositorio {
 
     private final List<Tentativa> tentativas = new ArrayList<>();
     private long proximoId = 1;

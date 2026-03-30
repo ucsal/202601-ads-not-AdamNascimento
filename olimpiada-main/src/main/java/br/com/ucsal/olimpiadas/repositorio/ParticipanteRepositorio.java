@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ParticipanteRepositorio {
+public class ParticipanteRepositorio implements iParticipanteRepositorio {
 
     private final List<Participante> participantes = new ArrayList<>();
     private long proximoId = 1;
@@ -23,7 +23,7 @@ public class ParticipanteRepositorio {
         return participantes;
     }
 
-    public Optional<Participante> buscarPorId(Long id){
+    public Optional<Participante> buscarPorId(long id){
         return participantes.stream()
                 .filter(p -> p.getId() == id)
                 .findFirst();

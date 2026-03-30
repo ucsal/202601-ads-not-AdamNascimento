@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class QuestaoRepositorio {
+public class QuestaoRepositorio implements iQuestaoRepositorio {
 
     private final List<Questao> questoes = new ArrayList<>();
     private long proximoId = 1;
