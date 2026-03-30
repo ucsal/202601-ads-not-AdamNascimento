@@ -79,8 +79,7 @@ public class ServiceTentativa {
             System.out.println("\nQuestão #" + q.getId());
             System.out.println(q.getEnunciado());
 
-            System.out.println("Posição inicial:");
-            TabuleiroUtil.imprimirTabuleiroFen(q.getFenInicial());
+            q.exibirContexto();
 
             for (var alt : q.getAlternativas()) {
                 System.out.println(alt);

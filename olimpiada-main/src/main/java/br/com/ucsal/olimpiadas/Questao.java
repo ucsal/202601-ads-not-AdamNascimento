@@ -76,4 +76,8 @@ public class Questao {
 		return up;
 	}
 
+	public void exibirContexto(){
+
+	}
+
 }

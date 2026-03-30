@@ -4,9 +4,7 @@ import br.com.ucsal.olimpiadas.repositorio.ParticipanteRepositorio;
 import br.com.ucsal.olimpiadas.repositorio.ProvaRepositorio;
 import br.com.ucsal.olimpiadas.repositorio.QuestaoRepositorio;
 import br.com.ucsal.olimpiadas.repositorio.TentativaRepositorio;
-import br.com.ucsal.olimpiadas.service.ServiceParticipante;
-import br.com.ucsal.olimpiadas.service.ServiceProva;
-import br.com.ucsal.olimpiadas.service.ServiceTentativa;
+import br.com.ucsal.olimpiadas.service.*;
 
 import java.util.Scanner;
 
@@ -18,8 +16,9 @@ public class App {
 	static final TentativaRepositorio tentativaRepositorio = new TentativaRepositorio();
 	static final ServiceParticipante serviceParticipante = new ServiceParticipante(participanteRepositorio, in);
 	static final ServiceProva serviceProva = new ServiceProva(provaRepositorio, questaoRepositorio, in);
+	static final iCalcularNota calculadora = new CalcularNotaAcertos ();
 	static final ServiceTentativa serviceTentativa = new ServiceTentativa(participanteRepositorio, provaRepositorio, questaoRepositorio,
-			tentativaRepositorio, serviceParticipante, serviceProva, in);
+			tentativaRepositorio, serviceParticipante, serviceProva,calculadora, in);
 
 
 	public static void main(String[] args) {
@@ -55,7 +54,7 @@ public class App {
 		prova.setTitulo("Olimpíada 2026 • Nível 1 • Prova A");
 		provaRepositorio.salvar(prova); // ← repositório guarda
 
-		var q1 = new Questao();
+		var q1 = new QuestaoXadrez();
 		q1.setId(questaoRepositorio.proximoId()); // ← repositório gera o ID
 		q1.setProvaId(prova.getId());
 
