@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class ServiceTentativa {
 
+    private final iCalcularNota calculadora;
     private final iParticipanteRepositorio iParticipanteRepositorio;
     private final iProvaRepositorio iProvaRepositorio;
     private final iQuestaoRepositorio iQuestaoRepositorio;
@@ -21,17 +22,19 @@ public class ServiceTentativa {
     private final Scanner in;
 
     public ServiceTentativa(
-            iParticipanteRepositorio iParticipanteRepositorio,
-            iProvaRepositorio iProvaRepositorio,
-            iQuestaoRepositorio iQuestaoRepositorio,
-            iTentativaRepositorio iTentativaRepositorio,
+            iParticipanteRepositorio participanteRepositorio,
+            iProvaRepositorio provaRepositorio,
+            iQuestaoRepositorio questaoRepositorio,
+            iTentativaRepositorio tentativaRepositorio,
             ServiceParticipante serviceParticipante,
             ServiceProva serviceProva,
+            iCalcularNota calculadora,
             Scanner in) {
-        this.iParticipanteRepositorio = iParticipanteRepositorio;
-        this.iProvaRepositorio = iProvaRepositorio;
-        this.iQuestaoRepositorio = iQuestaoRepositorio;
-        this.iTentativaRepositorio = iTentativaRepositorio;
+        this.calculadora = calculadora;
+        this.iParticipanteRepositorio = participanteRepositorio;
+        this.iProvaRepositorio = provaRepositorio;
+        this.iQuestaoRepositorio = questaoRepositorio;
+        this.iTentativaRepositorio = tentativaRepositorio;
         this.serviceParticipante = serviceParticipante;
         this.serviceProva = serviceProva;
         this.in = in;
@@ -102,18 +105,9 @@ public class ServiceTentativa {
 
         iTentativaRepositorio.salvar(tentativa);
 
-        int nota = calcularNota(tentativa);
+        int nota = calculadora.calcular(tentativa);
         System.out.println("\n--- Fim da Prova ---");
         System.out.println("Nota (acertos): " + nota + " / " + tentativa.getRespostas().size());
-    }
-
-    public int calcularNota(Tentativa tentativa) {
-        int acertos = 0;
-        for (var r : tentativa.getRespostas()) {
-            if (r.isCorreta())
-                acertos++;
-        }
-        return acertos;
     }
 
     public void listar() {
@@ -121,7 +115,7 @@ public class ServiceTentativa {
         for (var t : iTentativaRepositorio.listarTodos()) {
             System.out.printf("#%d | participante=%d | prova=%d | nota=%d/%d%n",
                     t.getId(), t.getParticipanteId(),
-                    t.getProvaId(), calcularNota(t), t.getRespostas().size());
+                    t.getProvaId(), calculadora.calcular(t), t.getRespostas().size());
         }
     }
 }

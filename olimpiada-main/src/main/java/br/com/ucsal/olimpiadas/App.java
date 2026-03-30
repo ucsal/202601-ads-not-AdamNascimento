@@ -18,8 +18,7 @@ public class App {
 	static final TentativaRepositorio tentativaRepositorio = new TentativaRepositorio();
 	static final ServiceParticipante serviceParticipante = new ServiceParticipante(participanteRepositorio, in);
 	static final ServiceProva serviceProva = new ServiceProva(provaRepositorio, questaoRepositorio, in);
-	static final ServiceTentativa serviceTentativa = new ServiceTentativa(
-			participanteRepositorio, provaRepositorio, questaoRepositorio,
+	static final ServiceTentativa serviceTentativa = new ServiceTentativa(participanteRepositorio, provaRepositorio, questaoRepositorio,
 			tentativaRepositorio, serviceParticipante, serviceProva, in);
 
 
