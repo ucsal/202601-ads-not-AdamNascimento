@@ -1,13 +1,14 @@
 package br.com.ucsal.olimpiadas.repositorio;
 
 import br.com.ucsal.olimpiadas.Questao;
-import java.util.List;
-import java.util.Optional;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioLeitura;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioEscrita;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioContador;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioConsulta;
 
-public interface iQuestaoRepositorio {
-    long proximoId();
-    void salvar(Questao q);
-    List<Questao> listarTodos();
-    Optional<Questao> buscarPorId(long id);
-    boolean isEmpty();
+public interface iQuestaoRepositorio extends
+        IRepositorioLeitura<Questao>,
+        IRepositorioEscrita<Questao>,
+        IRepositorioContador,
+        IRepositorioConsulta {
 }

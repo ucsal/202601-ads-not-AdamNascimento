@@ -1,13 +1,13 @@
 package br.com.ucsal.olimpiadas.repositorio;
 
 import br.com.ucsal.olimpiadas.Tentativa;
-import java.util.List;
-import java.util.Optional;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioConsulta;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioContador;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioEscrita;
+import br.com.ucsal.olimpiadas.repositorio.IRepositorioLeitura;
 
-public interface iTentativaRepositorio {
-    long proximoId();
-    void salvar(Tentativa t);
-    List<Tentativa> listarTodos();
-    Optional<Tentativa> buscarPorId(long id);
-    boolean isEmpty();
-}
+public interface iTentativaRepositorio extends
+        IRepositorioLeitura<Tentativa>,
+        IRepositorioEscrita<Tentativa>,
+        IRepositorioContador,
+        IRepositorioConsulta { }
